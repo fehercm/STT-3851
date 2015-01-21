@@ -1,7 +1,7 @@
 #factorial books on shelve
 factorial (7)
 #calling a package
-require (combinat)
+require(combinat)
 #permutaions
 x <- c("m1","m2","m3","s1","s2","s3","s4")
 permn(x)
