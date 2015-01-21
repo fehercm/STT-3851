@@ -1,7 +1,11 @@
 ---
 title: "Assignment: Probability Distributions in R"
 author: "Callum Feher"
+<<<<<<< HEAD
 date: "1/20/15"
+=======
+date: "1/19/15"
+>>>>>>> 9ac79512e216981373a1304388842f92ff05781d
 output: html_document
 ---
 
