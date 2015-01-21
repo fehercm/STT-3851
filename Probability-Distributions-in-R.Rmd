@@ -1,0 +1,154 @@
+---
+title: "Assignment: Probability Distributions in R"
+author: "Callum Feher"
+date: "1/20/15"
+output: html_document
+---
+
+### Continuous
+
+#### Probability
+
+```{r}
+#This code is for the area under he standard normal (mean of 0 and standard deviation of 1) density curve (the cumulative probability) to the left of x=1.25.
+pnorm(1.25)
+#This code is the area under 2 the density curve left of 2.8 with mean of 2 and standard deviation of 3. 
+pnorm(2.8, 2, 3)
+#This code is for the cumulative probability of the chi squared distribution left of 13.8 with 25 degrees of freedom.
+pchisq(13.9, 25)
+#The next two codes are for the area right of 4 on the exponential distribution with the parameter of 10, since the value is so close to 0 the first code evaluates to 0 due to rounding.
+1 - pexp(4, 10)
+pexp(4, 10, lower.tail=FALSE)
+#The cumulative probability left of 3.9 of the a t-ditribution with 7 degrees of freedom.
+pt(3.9, 7)
+
+```
+
+#### Quantiles
+
+```{r}
+#This code will find the value q so that the area under the standerd normal curve left of q is 25% otherwise known as the 25th percential.  
+qnorm(.25)
+#This code will do the same as above but the curve will have a mean of 2 and a standard deviation of 3
+qnorm(.75, 2,3)
+#This code will find the value q where 97.5% of the area under the t-distibution curve with 13 degrees of freedom falls. 
+qt(.975, 13)
+
+```
+
+#### Random Numbers
+
+```{r}
+#Generates 100 random numbers with a normal distribution
+rnorm(100)
+#Stores the 100 random numbers in a vector with the veriable x.
+x <- rnorm(100)
+#This command creates a histogram of vector x
+hist(x)
+#Generates 10 random numberes using the chi squared distribution with 23 degress of freedom.
+rchisq(10, 23)
+
+```
+
+#### Plotting the Density Curve (pdf)
+
+```{r}
+#Creates a plot of the normal density curve between -3 to 3.
+curve(dnorm(x), from = -3, to = 3)
+#Stores 50 random numbers with a normal distibution to w.
+w <- rnorm(50)
+#Creates a histogram of the the random numbers while holding scaling the area to 1.
+hist(w, freq = TRUE) 
+#Imposes a normal distribution curve over the previous ous histogram.
+curve(dnorm(x), add = TRUE)
+#Does the same as before but holds the y axis beween 0 and .5 of the histogram.
+hist(w, freq = TRUE, ylim = c(0, .5))
+curve(dnorm(x), add=TRUE)
+#Plots the chi-sq distribution with 14 degrees of freedom  betwwn 0 and 20.
+curve(dchisq(x, 14), from = 0, to = 20)
+
+```
+
+### Discrete
+
+#### Example--Binomial
+
+```{r}
+#The probability of being able to get 5 heads out of 16 toses with a bias coin with .8 probality of being heads.
+dbinom(5,16, .8)
+#The direct calculation of probality using the choose opperation and and setting the bias of the coin. 
+choose(16,5)*.8^5*.2^11
+#The probality of only getting 5 heads is.
+pbinom(5,16,.8)
+#The same as above but summing the probality of getting heads form 0 to 5.
+dbinom(0,16,.8)+dbinom(1,16,.8)+dbinom(2,16,.8)+dbinom(3,16,.8)+dbinom(4,16,.8)+dbinom(5,16,.8)
+#The number times you can get heads so that its pobality is greater or equal to 25%.
+qbinom(.25,16,.8)
+#The probablity of getting 11 heads which is less than 25%.
+pbinom(11, 16, .8)
+#The probality of getting 12 which is greater than 25%.
+pbinom(12, 16, .8)
+
+```
+
+#### Example--Geometric
+
+```{r}
+#This code will produce the probality of getting a head on the 4th tosses with the same coin, dgeom(failures, p).
+dgeom(3,.8)
+#The probility that a head orrors oin the first 4 toses.
+pgeom(3,.8)
+
+```
+
+#### Example--Poisson
+
+```{r}
+#In this example we are assuming that the earthquakes in california follow a poisson distribution and that they experiance about 5 a year what is the probality of 3.
+dpois(3,5)
+#The direct calulation of the poisson distribution as a funtion.
+5^3*exp(-5)/(3*2)
+
+```
+
+#### Random Numbers
+
+```{r}
+# This code simulates 25 flips of a biased coin where P(Head) = 0.8 or 80%.
+# The output is the total count of heads (or successes) in those 25 flips.
+rbinom(1,25,.8)
+
+# This value seeds the pseudo-random number generator in R. It is optional.
+# Anyone using the same seed value will generate identical "random" values.
+set.seed(0)
+
+# This code simulates 25 flips of a biased coin where P(Head) = 0.8 or 80%.
+# The experiment is repeated 10 times; output is the total number of heads.
+# There will be a total of ten values, one for each repetition of 25 flips.
+# Those ten values will be stored in a vector called "heads".
+heads <- rbinom(10, 25, .8)
+
+# This code prints out the values in the vector heads.
+heads
+
+# This code creates a frequency table of the values in the vector heads.  
+table(heads)
+
+# This code creates a bar chart of the values in the vector heads.
+barplot(table(heads))
+
+# This code simulates 25 flips of a biased coin where P(Head) = 0.8 or 80%.
+# The experiment is repeated 100 times; output is the total number of heads.
+# There will be a total of 100 values, one for each repetition of 25 flips.
+# Those 100 values will be stored in a vector called "heads2".
+heads2 <- rbinom(100, 25, .8)
+
+# This code prints out the values in the vector heads2.
+heads2
+
+# This code creates a frequency table of the values in the vector heads2. 
+table(heads2)
+
+# This code creates a bar chart of the values in the vector heads.
+barplot(table(heads2))
+```
