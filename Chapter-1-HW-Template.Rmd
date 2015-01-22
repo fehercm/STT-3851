@@ -1,0 +1,42 @@
+---
+title: "Assignment: Chapter 1 HW"
+author: "Type Your Name Here"
+date: "Type The Date Here"
+output: html_document
+---
+
+### Problem 5
+
+In a population of size $N$, the probability of any subset of size $n$ being chosen is $1/{N \choose n}$. 
+
+a) Show that this implies that any one person in the population has a $n/N$ probability of being chosen in a sample. 
+
+b) Then, in particular, show that every person in the population has the same probability of being chosen.
+
+```{r}
+#R CODE HERE
+```
+
+### Problem 6
+
+A typical Gallup poll surveys about $n$ = 1000 adults. Suppose the sampling frame contains 100 million adults (including you). Now, select a random sample of 1000 adults.
+
+a) What is the probability that you will be in the sample?
+
+b) Now suppose that 2000 such samples are selected, each independent of the others. What is the probability that you will *not* be in any of the samples?
+
+c) How many samples must be selected for you to have a 0.5 probability of being in at least one sample?
+
+```{r}
+#R CODE HERE
+```
+
+### Appendix
+
+#### Inline Equation Example
+
+${10 \choose 2}=\frac{10!}{8!2!}=\frac{10 \times 9 \times 8 \times 7 \times 6 \times 5 \times 4\times 3 \times 2 \times 1}{(8 \times 7 \times 6 \times 5 \times 4\times 3 \times 2 \times 1)(2 \times 1)}=\frac{10 \times 9}{2 \times 1}=\frac{90}{2}=45$
+
+#### Displayed Equation Example
+
+$${10 \choose 2}=\frac{10!}{8!2!}=\frac{10 \times 9 \times 8 \times 7 \times 6 \times 5 \times 4\times 3 \times 2 \times 1}{(8 \times 7 \times 6 \times 5 \times 4\times 3 \times 2 \times 1)(2 \times 1)}=\frac{10 \times 9}{2 \times 1}=\frac{90}{2}=45$$
