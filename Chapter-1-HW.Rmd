@@ -1,7 +1,7 @@
 ---
 title: "Assignment: Chapter 1 HW"
-author: "Type Your Name Here"
-date: "Type The Date Here"
+author: "Callum Feher"
+date: "1/26/15"
 output: html_document
 ---
 
@@ -11,11 +11,11 @@ In a population of size $N$, the probability of any subset of size $n$ being cho
 
 a) Show that this implies that any one person in the population has a $n/N$ probability of being chosen in a sample. 
 
+$P(n)$ of any one person in the population will be picked for the sample meaning that $1/{N \choose n}$ = $n/N$. So starting with $1/{N \choose n}$ this can be expanded out to $1/{\frac{(N-n)!N}{n!(N-n)}}$ since n is any one person in the population $n! = n$ therefore $1/{\frac{(N-n)!N}{n!(N-n)}}$ can be rewritten as $1/{\frac{N}{n}}$ which ultimately is $n/N$.
+
 b) Then, in particular, show that every person in the population has the same probability of being chosen.
 
-```{r}
-#R CODE HERE
-```
+Since $1/{N \choose n}$ is essentially $n/N$ for an individual being chosen in a population it is also the same for a sample size $n$ in the same population.
 
 ### Problem 6
 
@@ -23,12 +23,15 @@ A typical Gallup poll surveys about $n$ = 1000 adults. Suppose the sampling fram
 
 a) What is the probability that you will be in the sample?
 
+```{r}
+p <- 1000/(100*10^6)
+p
+```
+
 b) Now suppose that 2000 such samples are selected, each independent of the others. What is the probability that you will *not* be in any of the samples?
 
-c) How many samples must be selected for you to have a 0.5 probability of being in at least one sample?
-
 ```{r}
-#R CODE HERE
+(1-p)^2000
 ```
 
 ### Appendix

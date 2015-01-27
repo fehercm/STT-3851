@@ -8,7 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
-<meta name="author" content="Type Your Name Here" />
+<meta name="author" content="Callum Feher" />
 
 
 <title>Assignment: Chapter 1 HW</title>
@@ -53,8 +53,8 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 
 <div id="header">
 <h1 class="title">Assignment: Chapter 1 HW</h1>
-<h4 class="author"><em>Type Your Name Here</em></h4>
-<h4 class="date"><em>Type The Date Here</em></h4>
+<h4 class="author"><em>Callum Feher</em></h4>
+<h4 class="date"><em>1/26/15</em></h4>
 </div>
 
 
@@ -62,20 +62,28 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <h3>Problem 5</h3>
 <p>In a population of size <span class="math">\(N\)</span>, the probability of any subset of size <span class="math">\(n\)</span> being chosen is <span class="math">\(1/{N \choose n}\)</span>.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>Show that this implies that any one person in the population has a <span class="math">\(n/N\)</span> probability of being chosen in a sample.</p></li>
-<li><p>Then, in particular, show that every person in the population has the same probability of being chosen.</p></li>
+<li>Show that this implies that any one person in the population has a <span class="math">\(n/N\)</span> probability of being chosen in a sample.</li>
 </ol>
-<pre class="r"><code>#R CODE HERE</code></pre>
+<p><span class="math">\(P(n)\)</span> of any one person in the population will be picked for the sample meaning that <span class="math">\(1/{N \choose n}\)</span> = <span class="math">\(n/N\)</span>. So starting with <span class="math">\(1/{N \choose n}\)</span> this can be expanded out to <span class="math">\(1/{\frac{(N-n)!N}{n!(N-n)}}\)</span> since n is any one person in the population <span class="math">\(n! = n\)</span> therefore <span class="math">\(1/{\frac{(N-n)!N}{n!(N-n)}}\)</span> can be rewritten as <span class="math">\(1/{\frac{N}{n}}\)</span> which ultimately is <span class="math">\(n/N\)</span>.</p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Then, in particular, show that every person in the population has the same probability of being chosen.</li>
+</ol>
+<p>Since <span class="math">\(1/{N \choose n}\)</span> is essentially <span class="math">\(n/N\)</span> for an individual being chosen in a population it is also the same for a sample size <span class="math">\(n\)</span> in the same population.</p>
 </div>
 <div id="problem-6" class="section level3">
 <h3>Problem 6</h3>
 <p>A typical Gallup poll surveys about <span class="math">\(n\)</span> = 1000 adults. Suppose the sampling frame contains 100 million adults (including you). Now, select a random sample of 1000 adults.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>What is the probability that you will be in the sample?</p></li>
-<li><p>Now suppose that 2000 such samples are selected, each independent of the others. What is the probability that you will <em>not</em> be in any of the samples?</p></li>
-<li><p>How many samples must be selected for you to have a 0.5 probability of being in at least one sample?</p></li>
+<li>What is the probability that you will be in the sample?</li>
 </ol>
-<pre class="r"><code>#R CODE HERE</code></pre>
+<pre class="r"><code>p &lt;- 1000/(100*10^6)
+p</code></pre>
+<pre><code>## [1] 1e-05</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Now suppose that 2000 such samples are selected, each independent of the others. What is the probability that you will <em>not</em> be in any of the samples?</li>
+</ol>
+<pre class="r"><code>(1-p)^2000</code></pre>
+<pre><code>## [1] 0.9801986</code></pre>
 </div>
 <div id="appendix" class="section level3">
 <h3>Appendix</h3>
