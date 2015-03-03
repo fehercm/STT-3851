@@ -1,3 +1,4 @@
+
 #problem 3
 
 stt3850<-read.csv(file=url("http://www1.appstate.edu/~thomleyje/R-datafiles/PersonalitySTT3850.csv"))
