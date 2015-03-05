@@ -1,0 +1,208 @@
+---
+title: "Project 1: Powerball, Personality, and the Planet"
+author: "Callum Feher, Brandon Flinchum, Alexander Waddell"
+date: "4/3/15"
+output: html_document
+---
+
+#### Problem 1
+
+For each Powerball drawing, the white balls (five) and the red ball (one) are chosen from separate containers, as shown above. There is only one copy of each number in each container and balls are drawn without replacement. You may assume that all of the balls in a given container have an equal chance of being chosen.
+
+a)Simulate drawing a standard Powerball lottery number, using R's sample and seq commands.
+
+```{r}
+Whiteballs<-1:59 #vector for possible white values
+Powerballs<-1:35 #vector for possible red vales
+pbwinner<-sort(sample(Whiteballs,5,replace=FALSE)) #taking a sample of size 5 from white balls
+redball<-sample(Powerballs,1) #pick a redball
+append(pbwinner,redball,after=length(pbwinner)) #attach red smaple to white sample
+```
+
+b)If I purchase a single Powerball lottery ticket, what is the chance I will win the next Jackpot?
+
+```{r}
+#white balls
+choose(59,5) #Total combinations of white balls
+#red balls
+choose(35,1) #Total combinations of red balls
+#multiply them
+bot<-choose(59,5)*(choose(35,1)) #Total number of possible powerball tickets
+#175,223,510 unique combinations
+1/bot #1 unique ticket out of total number of tickets
+```
+
+c)Suppose I buy one Powerball lottery ticket for every drawing, and I always choose the same set of numbers (6, 7, 8, 26, 28, with Powerball 29). A friend insists that my chances of winning would be better if I played a different set of numbers every time. Is he correct? Why or why not?
+
+#####Because each sampling of powerball winners is independent from each other( they don't affect the probability of one another) it would be pointless to change numbers because all you are doing is picking a different unique combinations of numbers this new combination is still only one combination out of 175,223,510 combinations.
+
+d)Before the upcoming Saturday's drawing, 70,089,404 unique number combinations are sold. What is the probability that someone from Saturday's pool of ticket holders will be able to claim the Jackpot?
+
+```{r}
+#total number of unique possible combinations:175,223,510 unique combinations
+70089404/175223510 #P(Someone is a millionair on sunday)=
+```
+
+e)Suppose exactly 70,089,404 unique number combinations will be sold for each Powerball Lottery drawing for several months in a row. Starting now, what is the probability that the first Jackpot will be won within three weeks (i.e., on or before the sixth consecutive drawing)?
+
+```{r}
+pgeom(5,0.4)#P(Someone wins in 3 weeks)=
+```
+
+f)Suppose that the number of unique number combinations sold per drawing remains constant at 70,089,404. If we start counting at the first January drawing, how many drawings will be required on average for the company to reach its first three Jackpots payouts for the year? Use simulation with 10,000 repetitions to find the answer.
+
+```{r}
+set.seed(0)
+trial<-rnbinom(10000,3,0.4)
+round(mean(trial))+3
+```
+
+g)Suppose exactly 70,089,404 unique number combinations are sold for each Powerball Lottery drawing for an entire year (104 drawings). How many Jackpots should the company expect to pay out during that year?
+
+```{r}
+round(104*0.4)
+```
+
+h)In reality, the number of tickets sold for each drawing does not remain constant, as we assumed in (e)-(g). If a Jackpot is not awarded for a given drawing, the dollar value of the Jackpot increases for the next drawing and more people tend to buy tickets (source). How could you approach modeling/solving (f) for a variable number of ticket sales each drawing? For example, you would still have to make some assumptions--what might they be? You do not have to implement your solution; just discuss the general mathematical and/or programming algorithm you might use.
+
+#####we could use (the number of tickets sold / the number of combinations) in place of the probality in the random negative binomial and determine the number of tickets sold by using random value based from a model of number of tickets sold.  
+
+#### Problem 2
+
+The data set LotteryPowerballA.csv contains all of the Powerball Lottery numbers drawn between 02/03/10 to 02/18/15. Each drawing's five white numbers have been sorted from smallest (Low) to largest (High), with the one red number at the end (Poweball). It should be noted that between January 2009 and January 2012, the Powerball was selected from the numbers 1-39 rather than 1-35.
+
+a)Create a histogram for the Powerball number, including labels that show how many observations are in each bin. Does the shape of the distribution support the idea that the red balls are all equally likely to be chosen? What evidence from the graph supports your answer? (Do not use the words "even" or "evenly" in your description--use more statistically descriptive terms.)
+
+```{r}
+Ball <- read.csv(file=url("http://www1.appstate.edu/~thomleyje/R-datafiles/LotteryPowerballA.csv"))
+hist(Ball$Powerball,
+     labels=T,
+     ylim=c(0,90),
+     breaks=15,)
+```
+#####This graph shows a roughly equal distribution of from powerball numbers picked until reaching the the mid 30s at which point there is a steep drop of in frequency. In general, excluding the abnormally low frequency at the upper range, this graph backups the assertion that each of the balls have a relatively equal chance of being picked.
+
+b)Create boxplots for the five white numbers (i.e., Low, Second, Third, Fourth, High), with all of the plots displayed horizontally on the same set of axes for comparison. Include descriptive axis labels and a title, as well as appropriate labels for the boxplots. What shape does each variable have? Are there any outliers? Be sure to cite evidence from the plots to support your answers.
+
+```{r}
+boxplot(Ball$Low, Ball$Second, Ball$Third, Ball$Fourth, Ball$High,
+        main="Five Number Summary of Low-High Balls",
+        sub="Boxplots of each variable within the Five Numer Summary",
+        ylab="Number Picked",
+        names=c("Low Ball","Second Ball", "Third Ball","Fourth Ball","High Ball"))
+```
+#####The boxplot representing the low ball contains distribution skewed toward the higher range of numbers with several outliers above 30. The second ball displays a similar skew to the higher numbers but contains only two outliers situated above the upper 40s. The third ball depicts a relatively even distribution on both the upper and lower sides with a mean only slightly  above 30. There are no outliers here. The boxplot of the fourth ball begins to skew towoards the lower numbers with only one outlier located around 10. The high ball boxplot shows more intensive downward skew with a frequency of outliers similar to the low ball, but here the outliers are located roughly below 30 instead of above.
+
+c)Give the way the lottery drawing works, why does it make sense mathematically/statistically that the variables would have the distribution shapes you described in (b)?
+
+######Of the 5 white balls selected, they are organized in order from highest to lowest. Bearing this in mind it would make sense to find the overage number on the ball to increase in value with each successive tier of organization (from lowest to highest).
+
+
+#### Problem 3
+
+Earlier this semester, (most of) you completed a Myers-Briggs type personality assessment, which has been added to my Fall 2014 classes' data in the PersonalitySTT3850.csv data set. We analyzed similar data in class for students from my STT1810 students (PersonalitySTT1810.csv). Unless otherwise specified, assume that all of the questions below apply to the STT3850 data.
+
+a)How many students are included in the sample? How many are male and how many are female?
+
+```{r}
+stt3850<-read.csv(file=url("http://www1.appstate.edu/~thomleyje/R-datafiles/PersonalitySTT3850.csv"))
+addmargins(table(stt3850$Gender))
+```
+
+b)What majors are represented? Create a relative frequency table that sorts the majors from largest to smallest and then make a bar chart to display this information. Include descriptive axis labels and a title.
+
+```{r}
+sort(prop.table(table(stt3850$Major)))
+barplot(sort(prop.table(table(stt3850$Major))),main="Students in each Major",xlab="Major",ylab="No. Students")
+```
+
+c)Which personality type is most common? What percentage of students reported this type? What percentage of students are included in the top three reported personality types?
+
+```{r}
+sort(prop.table(table(stt3850$Type)))
+```
+
+d)Create a contingency table with Gender as rows and Major as columns. Show the counts of each major within each gender. Also, create a bar chart to display this information. Include descriptive axis labels and a title. Does the distribution of males and females within each major seem to differ? What evidence in the the table and/or graph supports your answer?
+
+```{r}
+addmargins(table(stt3850$Gender,stt3850$Major))
+barplot(table(stt3850$Gender,stt3850$Major),main="Students by Gender in each Major",xlab="Major",ylab="No. Students",col=c("deep pink","royal blue"))
+```
+#####By looking at the table and graph there is a significant difference in males and females by major
+
+e)Create a contingency table with Type as rows and Gender as columns. Show the percentage of students who reported each type within each gender, with all values rounded to one decimal place. Does the distribution of personality types seem to differ between males and females? What evidence in the the table supports your answer?
+
+```{r}
+round(100*prop.table(table(stt3850$Type,stt3850$Gender),2),2)
+```
+######Yes, the data in the table shows that there is no type that has roughly the same percentage between males and females
+
+f)Based on the available data, name three ways in which students in STT3850 differ from students in STT1810.
+
+```{r}
+stt1810<-read.csv(file=url("http://www1.appstate.edu/~thomleyje/R-datafiles/PersonalitySTT1810.csv"))
+addmargins(table(stt1810$Gender))
+sort(prop.table(table(stt1810$Major)))
+barplot(sort(prop.table(table(stt1810$Major))),main="Students in each Major",xlab="Major",ylab="No. Students")
+sort(prop.table(table(stt1810$Type)))
+addmargins(table(stt1810$Gender,stt1810$Major))
+barplot(table(stt1810$Gender,stt1810$Major),main="Students by Gender in each Major",xlab="Major",ylab="No. Students",col=c("deep pink","royal blue"))
+round(100*prop.table(table(stt1810$Type,stt1810$Gender),2),2)
+```
+#####By running the same tests on STT1810 the follow was conculed.
+* #####The 3850 has way fewer females to males while 1810 has around the same.
+* #####Two of the majors in 1810 communications and nurseing have more females while in 3850 all majors had a majority of males.
+* #####In 3850 there are no percentage of females in the type ENTP,ESTJ,ESTP,ISTP while there is in 1810.
+
+#### Problem 4
+
+Earth's atmosphere has been measured at Mauna Loa Observatory on the Big Island of Hawaii since the 1950's (source). The observatory is 3,400 meters (11,000 feet) above sea level and its remote location helps protect the data it collects from potentially biasing influences. The data set MaunaLoaCO2.csv contains publicly available carbon dioxide data for the years 1958 through 2014. CO2 is one of the gasses that contributes to climate change. In the data set, the variable CO2.raw is the monthly average value of CO2 in parts per million (ppm). CO2.adj is the same monthly average of CO2 after being adjusted for typical seasonal variation. Date is year with a decimal portion representing month as a fractional part of the year (e.g., mid-January is 1/24 of the way through the year, rounded to 0.04).
+
+a)Subset the data to exclude all cases from 1958 and 1959, leaving only the decades 1960s through the 2010's.
+
+```{r}
+CO2<-read.csv(file="http://www1.appstate.edu/~thomleyje/R-datafiles/MaunaLoaCO2.csv")
+CO60up<-subset(CO2,Year>1959,select=c(Decade,CO2.raw))
+CO60up
+```
+
+b)Using the subsetted data, create boxplots of raw CO2 data by decade, with all of the plots displayed vertically on the same set of axes for comparison. Include descriptive axis labels and a title.
+
+```{r}
+boxplot(CO2.raw ~ Decade, data=CO60up,
+        main="CO2 Data by Decade",
+        ylab="Carbon Amount (ppm)",
+        xlab="Decade")
+```
+
+c)Has the amount of CO2 typically found in the atmosphere changed over time (i.e., decade to decade)? If so, how has it changed? Be sure to cite evidence from the plots and/or other relevant summary measures to support your answers. If you refer to a specific statistic in the boxplot (e.g., median), compute/report the actual value of that statistic.
+
+```{r}
+CO1960<-subset(CO60up,Decade=="1960s",select=CO2.raw)
+CO1970<-subset(CO60up,Decade=="1970s",select=CO2.raw)
+CO1980<-subset(CO60up,Decade=="1980s",select=CO2.raw)
+CO1990<-subset(CO60up,Decade=="1990s",select=CO2.raw)
+CO2000<-subset(CO60up,Decade=="2000s",select=CO2.raw)
+CO2010<-subset(CO60up,Decade=="2010s",select=CO2.raw)
+
+fivenum(CO1960)
+fivenum(CO1970)
+fivenum(CO1980)
+```
+#####By subseting the years and running a 5 number on each made it possible see nummerical how CO2 levels had changed over the years, the first 3 decades show an increase in the mean and the box plots show a continued growth.
+
+d)Has the variability in CO2 changed over time? Use appropriate evidence to support your answer, as in (c).
+
+```{r}
+sd(table(CO1960$CO2.raw))
+sd(table(CO1970$CO2.raw))
+sd(table(CO1980$CO2.raw))
+sd(table(CO1990$CO2.raw))
+sd(table(CO2000$CO2.raw))
+sd(table(CO2010$CO2.raw))
+```
+#####By viewing the individual standard deviations of the different decades shows that there is a variation.
+
+
+
+

@@ -2,7 +2,7 @@ pop<- read.csv(file=url("http://www1.appstate.edu/~thomleyje/R-datafiles/Popular
 table(pop$Urban.Rural)
 table(pop$Grade)
 prop.table(table(pop$Gender))
-prop.table(table(pop$Gender,pop$Urban.Rural))
+prop.table(table(pop$Gender,pop$Urban.Rural),1)
 table(pop$Goals)
 table(pop$Gender,pop$Goals)
 prop.table(table(pop$Gender,pop$Goals),2))
