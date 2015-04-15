@@ -67,7 +67,7 @@ Powerballs&lt;-1:35 #vector for possible red vales
 pbwinner&lt;-sort(sample(Whiteballs,5,replace=FALSE)) #taking a sample of size 5 from white balls
 redball&lt;-sample(Powerballs,1) #pick a redball
 append(pbwinner,redball,after=length(pbwinner)) #attach red smaple to white sample</code></pre>
-<pre><code>## [1] 12 19 27 31 54 19</code></pre>
+<pre><code>## [1]  5 15 18 22 58 21</code></pre>
 <p>b)If I purchase a single Powerball lottery ticket, what is the chance I will win the next Jackpot?</p>
 <pre class="r"><code>#white balls
 choose(59,5) #Total combinations of white balls</code></pre>
