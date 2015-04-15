@@ -1,0 +1,93 @@
+---
+title: "Homogenindependence"
+author: "Callum Feher"
+date: "4/15/15"
+output: html_document
+---
+
+### Problem 1
+Ho = Is that the personality types between gender are the same
+
+Ha = Is that the personality types between gender are different
+
+First define the chi function.
+```{r}
+chisq<-function(Obs)
+{ 
+  Exp <- outer(rowSums(Obs),colSums(Obs))/sum(Obs)
+  sum((Obs-Exp)^2/Exp)
+}
+
+```
+
+Load the data set.
+```{r}
+STT3850 <- read.csv(file=url("http://www1.appstate.edu/~thomleyje/R-datafiles/PersonalitySTT3850.csv"))
+```
+
+Select the two variables we want to test and make a table.Then use the function to calculate the chi-square test statistic (obs.diff)
+
+```{r}
+Observed <- table(STT3850$Gender,STT3850$Type)
+Observed
+obs.diff <- chisq(Observed)
+```
+
+Permutation sampling simulation, start by selecting the two variables that are being analysed then run the simulation.
+
+```{r}
+set.seed(0)
+Sex    <- subset(STT3850, select=Gender, drop=T)
+Type <- subset(STT3850, select=Type,drop=T)
+
+N <- 10^4-1
+random.diff<-numeric(N)
+for (i in 1:N)
+{
+  TYPE.perm <-sample(Type)
+  RANDOM.table <- table(Sex, TYPE.perm)
+  random.diff[i]<-chisq(RANDOM.table)
+}
+```
+
+Graphing the results of the simulation and viewing the expected values table.
+```{r}
+Expected <- outer(rowSums(Observed),colSums(Observed))/sum(Observed)
+Expected
+
+hist(random.diff, prob=T,
+     main="Null Distribution of Chi-Square Test Statistic",
+     xlab="randomly generated chi-square statistics", 
+     xlim=c(0,max(max(random.diff),obs.diff)),
+     ylim=c(0,1))
+abline(v=obs.diff,
+       col="blue",
+       lty=5)  
+```
+
+last but not least the p value 
+
+```{r}
+print(paste("The chi-square test statistic is ", round(obs.diff,4), ".", sep=""),quote=F)
+print(paste("The p-value for the test of independence is ", format((sum(random.diff >= obs.diff) + 1)/(N + 1),scientific=F), ".", sep=""),quote=F)
+```
+
+Rejecting the Ho is the as the p-value of the data is less than significance value of 0.10. Meaning the personality type is different by gender for the data set STT3850.
+
+Notes:
+I notices that the expected value table and the observed table had very similar proportions to each other.
+
+Some personality types had a majority of one gender in them.
+
+### Problem 2
+
+The other variable in the data set that could have an influence on the differences in personality type by gender is possible the major each of the students are in.
+
+
+### Problem 3
+The error message is due to the small values in some of the cells in the Observed table shown in problem 1.
+```{r}
+chisq.test(table(STT3850$Gender,STT3850$Type),correct=F)
+
+```
+
